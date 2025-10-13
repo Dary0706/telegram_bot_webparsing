@@ -7,7 +7,7 @@ import time
 token = '7917086296:AAF81AE2Q8eHQujDN-AnjsB-gZ_8npo-ohg'
 bot = telebot.TeleBot(token)
 
-ID = -1003107332060
+ID = 
 
 
 @bot.message_handler(commands=['start'])
@@ -103,5 +103,6 @@ def callback_news(callback):
             file3 = open(f'./{c}', 'rb')
             bot.send_photo(ID, file3, caption=f'{hr_paper}', parse_mode='html')
         time.sleep(1200)
+
 
 bot.polling(none_stop=True)
