@@ -4,10 +4,10 @@ import news
 import hour_url, hour_html
 import time
 
-token = '7917086296:AAF81AE2Q8eHQujDN-AnjsB-gZ_8npo-ohg'
+token = ''
 bot = telebot.TeleBot(token)
 
-ID = 
+ID = ''
 
 
 @bot.message_handler(commands=['start'])
@@ -20,66 +20,69 @@ def hi(message):
 @bot.message_handler(commands=['send_news'])
 def send_news(message):
     hr_magazine = hour_url.take_url_hr()
-    hr_paper_h = hour_html.get_h1_hr(hr_magazine[6])
-    hr_paper_div = hour_html.get_div_hr(hr_magazine[6])
-    hr_paper_img = hour_html.get_img_hr(hr_magazine[6])
+    hr_paper_h = hour_html.get_h1_hr(hr_magazine[2])
+    hr_paper_div = hour_html.get_div_hr(hr_magazine[2])
+    hr_paper_img = hour_html.get_img_hr(hr_magazine[2])
 
     hr_paper = news.final_news(hr_paper_h, hr_paper_div)
 
     if hr_paper_img == None:
         file3 = open(f'./rupor.jpg', 'rb')
-        bot.send_photo(ID, file3, caption=f'{hr_paper}', parse_mode='html')
+        bot.send_photo(message.chat.id, file3, caption=f'{hr_paper}', parse_mode='html')
     else:
         news.image_www(hr_paper_img)
         c = news.image_name(hr_paper_img)
-        print(c)
         file3 = open(f'./{c}', 'rb')
-        bot.send_photo(ID, file3, caption=f'{hr_paper}', parse_mode='html')
+        bot.send_photo(message.chat.id, file3, caption=f'{hr_paper}', parse_mode='html')
 
 
 @bot.message_handler(commands=['last_ten'])
 def lt(message):
-    ck = 0
-    while ck != 10:
-        hr_magazine = hour_url.take_url_hr()
-        hr_paper_h = hour_html.get_h1_hr(hr_magazine[ck])
-        hr_paper_div = hour_html.get_div_hr(hr_magazine[ck])
-        hr_paper_img = hour_html.get_img_hr(hr_magazine[ck])
+    ck = 1
+    while ck != 11:
+        try:
+            hr_magazine = hour_url.take_url_hr()
+            hr_paper_h = hour_html.get_h1_hr(hr_magazine[ck])
+            hr_paper_div = hour_html.get_div_hr(hr_magazine[ck])
+            hr_paper_img = hour_html.get_img_hr(hr_magazine[ck])
 
-        hr_paper = news.final_news(hr_paper_h, hr_paper_div)
+            hr_paper = news.final_news(hr_paper_h, hr_paper_div)
 
 
-        if hr_paper_img == None:
-            file = open(f'./rupor.jpg', 'rb')
-            bot.send_photo(message.chat.id, file, caption=f'{hr_paper}', parse_mode='html')
-        else:
-            news.image_www(hr_paper_img)
-            c = news.image_name(hr_paper_img)
-            print(c)
-            file3 = open(f'./{c}', 'rb')
-            bot.send_photo(message.chat.id, file3, caption=f'{hr_paper}', parse_mode='html')
+            if hr_paper_img == None:
+                file = open(f'./rupor.jpg', 'rb')
+                bot.send_photo(message.chat.id, file, caption=f'{hr_paper}', parse_mode='html')
+            else:
+                news.image_www(hr_paper_img)
+                c = news.image_name(hr_paper_img)
+                file3 = open(f'./{c}', 'rb')
+                bot.send_photo(message.chat.id, file3, caption=f'{hr_paper}', parse_mode='html')
+        except:
+            pass
         ck += 1
 
 
 @bot.message_handler(commands=['pre_post_news'])
 def post_news(message):
     while True:
-        hr_magazine = hour_url.take_url_hr()
-        hr_paper_h = hour_html.get_h1_hr(hr_magazine[0])
-        hr_paper_div = hour_html.get_div_hr(hr_magazine[0])
-        hr_paper_img = hour_html.get_img_hr(hr_magazine[0])
+        try:
+            hr_magazine = hour_url.take_url_hr()
+            hr_paper_h = hour_html.get_h1_hr(hr_magazine[2])
+            hr_paper_div = hour_html.get_div_hr(hr_magazine[2])
+            hr_paper_img = hour_html.get_img_hr(hr_magazine[2])
 
-        hr_paper = news.final_news(hr_paper_h, hr_paper_div)
+            hr_paper = news.final_news(hr_paper_h, hr_paper_div)
 
-        if hr_paper_img == None:
-            file3 = open(f'./rupor.jpg', 'rb')
-            bot.send_photo(ID, file3, caption=f'{hr_paper}', parse_mode='html')
-        else:
-            news.image_www(hr_paper_img)
-            c = news.image_name(hr_paper_img)
-            print(c)
-            file3 = open(f'./{c}', 'rb')
-            bot.send_photo(ID, file3, caption=f'{hr_paper}', parse_mode='html')
+            if hr_paper_img == None:
+                rup = open(f'./rupor.jpg', 'rb')
+                bot.send_photo(ID, rup, caption=f'{hr_paper}', parse_mode='html')
+            else:
+                news.image_www(hr_paper_img)
+                c = news.image_name(hr_paper_img)
+                pic = open(f'./{c}', 'rb')
+                bot.send_photo(ID, pic, caption=f'{hr_paper}', parse_mode='html')
+        except:
+            pass
         time.sleep(1200)
 
 
